@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BUREAU_BLIEM — Engineering agency for consulting, design, planning and implementation.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f7e100">
+  <title>BUREAU_BLIEM</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="portfolio.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#start" aria-label="BUREAU_BLIEM — Back to start">CONSULTING _ RESEARCH &amp; DESIGN _ PLANNING _ IMPLEMENTATION _ PROGRESSIVE COLLABORATIVE-WORK</a>
+  </header>
+
+  <main>
+    <section class="hero" id="start" aria-labelledby="site-title">
+      <h1 id="site-title">BUREAU_BLIEM</h1>
+      <a class="scroll-link" href="#house-o" aria-label="Scroll to the projects"><span aria-hidden="true">↓ ↓ ↓</span></a>
+    </section>
+
+    <div class="portfolio" id="portfolio">
+      <section class="project house" id="house-o" aria-labelledby="house-title">
+        <div class="gallery" role="group" aria-label="House O photographs">
+          <div class="slides" tabindex="0" aria-label="Photos. Use the left and right arrow keys to browse.">
+            <figure><img src="assets/house-interior.webp" width="1172" height="826" alt="Exposed plaster and plumbing during renovation"></figure>
+            <figure><img src="assets/house-construction.webp" width="962" height="840" alt="Construction site at House O with a crane and rubble containers" loading="lazy"></figure>
+            <figure><img src="assets/house-detail.webp" width="387" height="840" alt="Detail of a concrete edge and temporary support" loading="lazy"></figure>
+            <figure><img src="assets/house-exterior-detail.webp" width="161" height="892" alt="Detail of the roof and garden at House O" loading="lazy"></figure>
+          </div>
+          <button class="slide-control previous" type="button" data-step="-1" aria-label="Previous photo">‹</button>
+          <button class="slide-control next" type="button" data-step="1" aria-label="Next photo">›</button>
+        </div>
+
+        <div class="project-info">
+          <h2 id="house-title">HOUSE O</h2>
+          <div class="project-details">
+            <dl>
+              <div><dt>Year</dt><dd>2024–ongoing</dd></div>
+              <div><dt>Status</dt><dd>in construction</dd></div>
+              <div><dt>Type</dt><dd>private</dd></div>
+              <div><dt>Location</dt><dd>Paternion / Austria</dd></div>
+              <div><dt>Client</dt><dd>private</dd></div>
+            </dl>
+            <p>Complete renovation and modernization of a family home.<br>
+              Exterior updates in progress<br>
+              Interior updates in progress<br>
+              Additional structures in progress</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="panorama">
+        <img src="assets/canopy.webp" width="2048" height="251" alt="Canopy structure overlooking an Alpine town" loading="lazy">
+      </div>
+
+      <section class="project koetsch" id="koetsch-ma" aria-labelledby="koetsch-title">
+        <div class="project-info">
+          <h2 id="koetsch-title">KÖTSCH MA</h2>
+          <div class="project-details">
+            <dl>
+              <div><dt>Year</dt><dd>2024</dd></div>
+              <div><dt>Status</dt><dd>–</dd></div>
+              <div><dt>Type</dt><dd>competition</dd></div>
+              <div><dt>Location</dt><dd>Carinthia / Austria</dd></div>
+              <div><dt>Client</dt><dd>Kötschach-Mauthen</dd></div>
+            </dl>
+            <p>This project was developed as part of an ideas competition for a landmark sculpture at the entrance to Kötschach-Mauthen. The task was to design a contemporary, highly visible object that reflects the town’s identity and integrates the claim “So viel mehr.” The sculpture is conceived for roadside placement, designed to be perceived from both directions and from a distance. Only wood and metal were permitted as materials, with requirements for durability, low maintenance, and resistance to weather and snow loads. The design combines modern form language with references to the Alpine context and the municipality’s visual identity.</p>
+          </div>
+        </div>
+
+        <div class="gallery drawings" role="group" aria-label="Kötsch Ma drawings">
+          <div class="slides" tabindex="0" aria-label="Drawings. Use the left and right arrow keys to browse.">
+            <figure><img src="assets/koetsch-board.webp" width="1143" height="1073" alt="Competition board with elevation and site plan" loading="lazy"></figure>
+            <figure><img src="assets/koetsch-elevation.webp" width="960" height="404" alt="Elevation of the entrance sculpture alongside a person and a car" loading="lazy"></figure>
+            <figure><img src="assets/koetsch-plan.webp" width="960" height="559" alt="Site plan showing the sculpture’s placement beside the road" loading="lazy"></figure>
+          </div>
+          <button class="slide-control previous" type="button" data-step="-1" aria-label="Previous drawing">‹</button>
+          <button class="slide-control next" type="button" data-step="1" aria-label="Next drawing">›</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <nav class="site-nav" aria-label="BUREAU_BLIEM">
+    <button type="button" data-panel="contact" aria-haspopup="dialog">CONTACT</button>
+    <button type="button" data-panel="about" aria-haspopup="dialog">ABOUT</button>
+    <button type="button" data-panel="terms" aria-haspopup="dialog">AGBs</button>
+    <button type="button" data-panel="birdview" aria-haspopup="dialog">BIRDVIEW</button>
+  </nav>
+
+  <dialog id="contact" aria-labelledby="contact-title">
+    <form method="dialog"><button class="close" aria-label="Close contact">×</button></form>
+    <h2 id="contact-title">CONTACT</h2>
+    <p>Dipl.-Ing. Ralf Bliem<br>Villach, Austria</p>
+    <a href="https://at.linkedin.com/in/ralfbliem">LinkedIn ↗</a>
+  </dialog>
+
+  <dialog id="about" aria-labelledby="about-title">
+    <form method="dialog"><button class="close" aria-label="Close about">×</button></form>
+    <h2 id="about-title">ABOUT</h2>
+    <p>BUREAU_BLIEM is an engineering office in Villach, Austria, working across consulting, research &amp; design, planning and implementation.</p>
+  </dialog>
+
+  <dialog id="terms" aria-labelledby="terms-title">
+    <form method="dialog"><button class="close" aria-label="Close terms">×</button></form>
+    <h2 id="terms-title">AGBs</h2>
+    <p lang="de">Die AGBs sind in dieser Vorschau noch nicht hinterlegt.</p>
+  </dialog>
+
+  <dialog id="birdview" aria-labelledby="birdview-title">
+    <form method="dialog"><button class="close" aria-label="Close project overview">×</button></form>
+    <h2 id="birdview-title">BIRDVIEW</h2>
+    <div class="project-index">
+      <a href="#house-o"><img src="assets/house-interior.webp" alt="" width="1172" height="826" loading="lazy"><span>HOUSE O</span></a>
+      <a href="#koetsch-ma"><img src="assets/koetsch-board.webp" alt="" width="1143" height="1073" loading="lazy"><span>KÖTSCH MA</span></a>
+    </div>
+  </dialog>
+</body>
+</html>
