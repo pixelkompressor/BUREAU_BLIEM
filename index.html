@@ -7,16 +7,118 @@
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#f7e100">
   <title>BUREAU_BLIEM</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="projects.js" defer></script>
+  <link rel="preload" href="assets/archivo-black.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+@font-face {
+  font-family: Archivo Black;
+  src: url("assets/archivo-black.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+:root {
+  --yellow: #f7e100;
+  --paper: #fdfdf9;
+  --gray: #d8d8d6;
+  --ink: #191918;
+  --edge: clamp(8px, 1.25vw, 26px);
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body, h1, h2, p, figure, dl, dd { margin: 0; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid #403800; outline-offset: 4px; }
+.home {
+  background: var(--yellow);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: .35vw .45vw .6rem;
+}
+.poster { display: grid; gap: .35vw; }
+.poster-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: .6vw;
+}
+.poster-row a {
+  display: block;
+  font: 400 5.95vw/1.02 "Archivo Black", Arial, sans-serif;
+  letter-spacing: -.077em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.poster-row a:first-child { font-size: 5.3vw; line-height: 1.15; }
+.poster-row a:hover, .poster-row a:focus-visible { color: #fff; }
+.home-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem 1.3rem;
+  padding: 0 .35rem;
+  font-size: clamp(12px, 1vw, 17px);
+  font-weight: 700;
+}
+.home-footer span { margin-right: auto; }
+.home-footer a { text-decoration: none; }
+.home-footer a:hover { text-decoration: underline; }
+@media (prefers-reduced-motion: no-preference) {
+  .home:is(.is-starting, .is-opening-work) .poster-work {
+    animation: work-loading 1.1s ease-in-out infinite;
+    animation-delay: calc(var(--row) * 100ms);
+  }
+}
+@keyframes work-loading {
+  0%, 52%, 100% { opacity: 1; transform: translateY(0); }
+  23% { opacity: .42; transform: translateY(.11em); }
+}
+.route-error { padding: .5rem; color: var(--ink); background: var(--yellow); }
+@media (max-width: 650px) {
+  .home { padding: .65rem .45rem; }
+  .poster { gap: .45rem; }
+  .poster-row { gap: 2vw; }
+  .poster-row a { font-size: 6vw; }
+  .poster-row a:first-child { font-size: 5.2vw; }
+}
+  </style>
   <script src="portfolio.js" defer></script>
 </head>
 <body>
   <main>
     <section id="home" class="home" aria-label="BUREAU_BLIEM">
-      <nav id="home-nav" class="poster" aria-label="Main navigation"></nav>
+      <nav class="poster" aria-label="Main navigation">
+        <div class="poster-row" style="--row: 0">
+          <a href="#home">BUREAU_BLIEM</a><a href="#info">INFO</a>
+          <a class="poster-work" href="#work">WORK</a><a href="mailto:office@bureaubliem.com">MAIL</a>
+        </div>
+        <div class="poster-row" style="--row: 1">
+          <a href="#home" tabindex="-1" aria-hidden="true">BUREAU_BLIEM</a><a href="#info" tabindex="-1" aria-hidden="true">INFO</a>
+          <a class="poster-work" href="#work" tabindex="-1" aria-hidden="true">WORK</a><a href="mailto:office@bureaubliem.com" tabindex="-1" aria-hidden="true">MAIL</a>
+        </div>
+        <div class="poster-row" style="--row: 2">
+          <a href="#home" tabindex="-1" aria-hidden="true">BUREAU_BLIEM</a><a href="#info" tabindex="-1" aria-hidden="true">INFO</a>
+          <a class="poster-work" href="#work" tabindex="-1" aria-hidden="true">WORK</a><a href="mailto:office@bureaubliem.com" tabindex="-1" aria-hidden="true">MAIL</a>
+        </div>
+        <div class="poster-row" style="--row: 3">
+          <a href="#home" tabindex="-1" aria-hidden="true">BUREAU_BLIEM</a><a href="#info" tabindex="-1" aria-hidden="true">INFO</a>
+          <a class="poster-work" href="#work" tabindex="-1" aria-hidden="true">WORK</a><a href="mailto:office@bureaubliem.com" tabindex="-1" aria-hidden="true">MAIL</a>
+        </div>
+        <div class="poster-row" style="--row: 4">
+          <a href="#home" tabindex="-1" aria-hidden="true">BUREAU_BLIEM</a><a href="#info" tabindex="-1" aria-hidden="true">INFO</a>
+          <a class="poster-work" href="#work" tabindex="-1" aria-hidden="true">WORK</a><a href="mailto:office@bureaubliem.com" tabindex="-1" aria-hidden="true">MAIL</a>
+        </div>
+      </nav>
       <footer class="home-footer"><span>BUREAU_BLIEM · Villach, Austria</span><a href="#agb">AGBs</a></footer>
     </section>
+    <p id="route-error" class="route-error" role="alert" hidden>This page couldn’t load. <a href="">Reload and try again</a>.</p>
     <nav id="toolbar" class="toolbar" aria-label="Main navigation" hidden>
       <a class="home-link" href="#home" aria-label="Back to the BUREAU_BLIEM landing page">BUREAU_BLIEM</a>
       <a href="#info">INFO</a><a href="#work">WORK</a><a href="mailto:office@bureaubliem.com">MAIL</a><a href="#agb">AGBs</a>
@@ -53,6 +155,14 @@
       </div>
     </section>
   </main>
+  <script>
+    const landing = document.getElementById('home');
+    landing.classList.add('is-starting');
+    Promise.allSettled([
+      document.fonts.load('1em "Archivo Black"'),
+      new Promise(resolve => window.addEventListener('load', resolve, { once: true }))
+    ]).then(() => landing.classList.remove('is-starting'));
+  </script>
   <dialog id="lightbox" aria-label="Image view">
     <button class="light-close" type="button">Close <span aria-hidden="true">×</span></button>
     <button class="light-prev" type="button" aria-label="Previous image">‹</button>

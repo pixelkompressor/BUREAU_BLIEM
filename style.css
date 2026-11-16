@@ -4,67 +4,6 @@
   font-weight: 400 700;
   font-display: swap;
 }
-@font-face {
-  font-family: Archivo Black;
-  src: url("assets/archivo-black.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-:root {
-  --yellow: #f7e100;
-  --paper: #fdfdf9;
-  --gray: #d8d8d6;
-  --ink: #191918;
-  --edge: clamp(8px, 1.25vw, 26px);
-  background: var(--paper);
-  color: var(--ink);
-  font: 16px Arial, sans-serif;
-}
-* { box-sizing: border-box; }
-[hidden] { display: none !important; }
-body, h1, h2, p, figure, dl, dd { margin: 0; }
-a { color: inherit; }
-button { font: inherit; color: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-button { cursor: pointer; }
-:focus-visible { outline: 3px solid #403800; outline-offset: 4px; }
-.home {
-  background: var(--yellow);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: .35vw .45vw .6rem;
-}
-.poster { display: grid; gap: .35vw; }
-.poster-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: .6vw;
-}
-.poster-row a {
-  display: block;
-  font: 400 5.95vw/1.02 "Archivo Black", Arial, sans-serif;
-  letter-spacing: -.077em;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.poster-row a:first-child { font-size: 5.3vw; line-height: 1.15; }
-.poster-row a:hover, .poster-row a:focus-visible { color: #fff; }
-.home-footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: .5rem 1.3rem;
-  padding: 0 .35rem;
-  font-size: clamp(12px, 1vw, 17px);
-  font-weight: 700;
-}
-.home-footer span { margin-right: auto; }
-.home-footer a { text-decoration: none; }
-.home-footer a:hover { text-decoration: underline; }
 .toolbar {
   position: fixed;
   inset: 5px 5px auto;
@@ -300,11 +239,6 @@ body:has(dialog[open]) { overflow: hidden; }
 .light-next { right: .2rem; }
 #light-count { position: absolute; bottom: 1rem; font-size: .9rem; }
 @media (max-width: 650px) {
-  .home { padding: .65rem .45rem; }
-  .poster { gap: .45rem; }
-  .poster-row { gap: 2vw; }
-  .poster-row a { font-size: 6vw; }
-  .poster-row a:first-child { font-size: 5.2vw; }
   #agb .text-panel { --panel-width: 86%; --panel-default-x: 7%; }
   .project-caption p { display: block; margin: .15rem 0 0; }
   #work .project-resize { display: none; }

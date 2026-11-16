@@ -1,4 +1,5 @@
-const projects = window.portfolioProjects;
+const home = document.querySelector('#home');
+const routeError = document.querySelector('#route-error');
 const work = document.querySelector('#work');
 const feed = document.querySelector('#project-feed');
 const resetCanvas = document.querySelector('#reset-canvas');
@@ -8,7 +9,9 @@ const toolbar = document.querySelector('#toolbar');
 const lightbox = document.querySelector('#lightbox');
 const imageContainer = document.querySelector('#light-content');
 const sections = ['home', 'work', 'detail', 'info', 'agb'];
-const titles = [['BUREAU_BLIEM', '#home'], ['INFO', '#info'], ['WORK', '#work'], ['MAIL', 'mailto:office@bureaubliem.com']];
+let stylesheet;
+let projectData;
+let navigation = 0;
 let lightboxImages = [];
 let selectedImage = 0;
 let currentRoute = '';
@@ -37,24 +40,11 @@ function createMoveGrip(title) {
   return grip;
 }
 
-for (let i = 0; i < 5; i++) {
-  const row = node('div', 'poster-row');
-  for (const [text, href] of titles) {
-    const item = link(text, href);
-    if (i > 0) {
-      item.tabIndex = -1;
-      item.setAttribute('aria-hidden', 'true');
-    }
-    row.append(item);
-  }
-  document.querySelector('#home-nav').append(row);
-}
-
 function picture(image) {
   const img = node('img');
-  [img.src, img.alt] = image;
   img.loading = 'lazy';
   img.decoding = 'async';
+  [img.src, img.alt] = image;
   return img;
 }
 
@@ -108,31 +98,36 @@ function renderAgency() {
   return section;
 }
 
-info.querySelector('.info-copy').after(renderAgency());
-
-for (const project of projects) {
-  const card = node('article', 'work-project');
-  card.id = 'work-' + project.id;
-  if (project.width === 'full') card.classList.add('wide-project');
-  card.dataset.layout = project.layout || 'diptych';
-  card.dataset.photos = project.images.filter(Boolean).length;
-  const grip = createMoveGrip(project.title);
-  const resizeGrip = node('button', 'project-resize');
-  resizeGrip.type = 'button';
-  resizeGrip.setAttribute('aria-label', 'Resize ' + project.title);
-  resizeGrip.setAttribute('aria-description', 'Drag or use the arrow keys to resize this project proportionally.');
-  resizeGrip.title = 'Resize project grid';
-  const caption = node('div', 'project-caption');
-  const heading = node('h2');
-  heading.append(link(project.title, '#project/' + project.id));
-  caption.append(heading);
-  if (project.description?.length) caption.append(node('p', '', project.description[0]));
-  else if (project.facts?.Material) caption.append(node('p', '', project.facts.Material));
-  card.append(renderGrid(project), caption, grip, resizeGrip);
-  feed.append(card);
+const cards = [];
+function renderWork(projects) {
+  for (const project of projects) {
+    const card = node('article', 'work-project');
+    card.id = 'work-' + project.id;
+    if (project.width === 'full') card.classList.add('wide-project');
+    card.dataset.layout = project.layout || 'diptych';
+    card.dataset.photos = project.images.filter(Boolean).length;
+    const grip = createMoveGrip(project.title);
+    const resizeGrip = node('button', 'project-resize');
+    resizeGrip.type = 'button';
+    resizeGrip.setAttribute('aria-label', 'Resize ' + project.title);
+    resizeGrip.setAttribute('aria-description', 'Drag or use the arrow keys to resize this project proportionally.');
+    resizeGrip.title = 'Resize project grid';
+    const caption = node('div', 'project-caption');
+    const heading = node('h2');
+    heading.append(link(project.title, '#project/' + project.id));
+    caption.append(heading);
+    if (project.description?.length) caption.append(node('p', '', project.description[0]));
+    else if (project.facts?.Material) caption.append(node('p', '', project.facts.Material));
+    card.append(renderGrid(project), caption, grip, resizeGrip);
+    feed.append(card);
+  }
+  cards.push(...feed.children);
+  for (const card of cards) {
+    enableMove(card, card.querySelector('.project-grip'), (x, y) => moveCard(card, x, y));
+    enableResize(card);
+  }
 }
 
-const cards = [...feed.children];
 const positions = new Map();
 const movedCards = new Map();
 const resizedCards = new Map();
@@ -257,23 +252,21 @@ function enableMove(card, grip, move) {
   });
 }
 
-for (const card of cards) {
-  const grip = card.querySelector('.project-grip');
-  if (grip) enableMove(card, grip, (x, y) => moveCard(card, x, y));
-}
-
-for (const panel of info.querySelectorAll('.text-panel')) {
-  const grip = createMoveGrip(panel.dataset.moveTitle);
-  panel.prepend(grip);
-  enableMove(panel, grip, (x, y) => {
-    const left = Math.max(8, Math.min(info.clientWidth - panel.offsetWidth - 8, x));
-    const top = Math.max(54, y);
-    const shiftX = parseFloat(panel.style.left) || 0;
-    const shiftY = parseFloat(panel.style.top) || 0;
-    panel.style.left = shiftX + left - panel.offsetLeft + 'px';
-    panel.style.top = shiftY + top - panel.offsetTop + 'px';
-    panel.style.zIndex = ++topLayer;
-  });
+function initializeInfo() {
+  info.querySelector('.info-copy').after(renderAgency());
+  for (const panel of info.querySelectorAll('.text-panel')) {
+    const grip = createMoveGrip(panel.dataset.moveTitle);
+    panel.prepend(grip);
+    enableMove(panel, grip, (x, y) => {
+      const left = Math.max(8, Math.min(info.clientWidth - panel.offsetWidth - 8, x));
+      const top = Math.max(54, y);
+      const shiftX = parseFloat(panel.style.left) || 0;
+      const shiftY = parseFloat(panel.style.top) || 0;
+      panel.style.left = shiftX + left - panel.offsetLeft + 'px';
+      panel.style.top = shiftY + top - panel.offsetTop + 'px';
+      panel.style.zIndex = ++topLayer;
+    });
+  }
 }
 
 const termsCanvas = document.getElementById('agb');
@@ -292,9 +285,8 @@ enableMove(termsPanel, termsGrip, (x, y) => {
   termsPanel.style.setProperty('--panel-y', top + 'px');
 });
 
-for (const card of cards) {
+function enableResize(card) {
   const grip = card.querySelector('.project-resize');
-  if (!grip) continue;
   let resize;
 
   function previewWidth(width, left = card.offsetLeft) {
@@ -364,9 +356,6 @@ new ResizeObserver(() => {
     layoutCanvas();
   }
 }).observe(feed);
-document.fonts.ready.then(() => {
-  if (!work.hidden) layoutCanvas();
-});
 let infoViewportWidth = window.innerWidth;
 window.addEventListener('resize', () => {
   if (window.innerWidth === infoViewportWidth) return;
@@ -400,22 +389,92 @@ function renderDetail(project) {
   detail.replaceChildren(renderGrid(project, true), copy);
 }
 
-function route() {
-  const previous = currentRoute;
+function loadStylesheet() {
+  stylesheet ??= new Promise((resolve, reject) => {
+    const sheet = node('link');
+    sheet.rel = 'stylesheet';
+    sheet.href = 'style.css';
+    sheet.onload = resolve;
+    sheet.onerror = () => {
+      sheet.remove();
+      stylesheet = undefined;
+      reject();
+    };
+    document.head.append(sheet);
+  });
+  return stylesheet;
+}
+
+function loadProjects() {
+  projectData ??= new Promise((resolve, reject) => {
+    const script = node('script');
+    script.src = 'projects.js';
+    const failed = () => {
+      script.remove();
+      projectData = undefined;
+      reject();
+    };
+    script.onload = () => {
+      if (Array.isArray(window.portfolioProjects)) resolve(window.portfolioProjects);
+      else failed();
+    };
+    script.onerror = failed;
+    document.head.append(script);
+  });
+  return projectData;
+}
+
+async function route() {
+  const request = ++navigation;
   const hash = location.hash.slice(1) || 'home';
-  const project = hash.startsWith('project/') && projects.find(item => item.id === hash.slice(8) && item.images);
-  if (previous === 'work') workPosition = window.scrollY;
-  currentRoute = project ? 'detail' : sections.includes(hash) && hash !== 'detail' ? hash : 'home';
-  if (lightbox.open) lightbox.close();
-  if (project) renderDetail(project);
-  for (const id of sections) document.getElementById(id).hidden = id !== currentRoute;
-  toolbar.hidden = currentRoute === 'home';
-  for (const anchor of toolbar.querySelectorAll('a')) {
-    if (anchor.getAttribute('href') === '#' + currentRoute) anchor.setAttribute('aria-current', 'page');
-    else anchor.removeAttribute('aria-current');
+  const isProject = hash.startsWith('project/');
+  const isWork = hash === 'work';
+  const needsProjects = isWork || isProject;
+  const needsStyles = needsProjects || hash === 'info' || hash === 'agb';
+  home.classList.toggle('is-opening-work', isWork && !cards.length);
+  routeError.hidden = true;
+
+  try {
+    let projects;
+    if (needsStyles) {
+      [projects] = await Promise.all([needsProjects ? loadProjects() : undefined, loadStylesheet()]);
+      if (request !== navigation) return;
+    }
+
+    const previous = currentRoute;
+    const project = isProject && projects.find(item => item.id === hash.slice(8) && item.images);
+    const next = project ? 'detail' : sections.includes(hash) && hash !== 'detail' ? hash : 'home';
+    const firstWorkVisit = isWork && !cards.length;
+    if (previous === 'work') workPosition = window.scrollY;
+    if (lightbox.open) lightbox.close();
+    if (firstWorkVisit) renderWork(projects);
+    if (project) renderDetail(project);
+    if (next === 'info' && !info.querySelector('.agency')) initializeInfo();
+    if (next === 'agb') loadTerms();
+
+    currentRoute = next;
+    for (const id of sections) document.getElementById(id).hidden = id !== currentRoute;
+    toolbar.hidden = currentRoute === 'home';
+    for (const anchor of toolbar.querySelectorAll('a')) {
+      if (anchor.getAttribute('href') === '#' + currentRoute) anchor.setAttribute('aria-current', 'page');
+      else anchor.removeAttribute('aria-current');
+    }
+    if (isWork) {
+      layoutCanvas();
+      if (firstWorkVisit) {
+        document.fonts.ready.then(() => {
+          if (!work.hidden) layoutCanvas();
+        });
+      }
+    }
+    window.scrollTo({ top: isWork && previous === 'detail' ? workPosition : 0, behavior: 'instant' });
+  } catch (error) {
+    if (request !== navigation) return;
+    console.error('Portfolio navigation failed', error);
+    routeError.hidden = false;
+  } finally {
+    if (request === navigation) home.classList.remove('is-opening-work');
   }
-  if (currentRoute === 'work') layoutCanvas();
-  window.scrollTo({ top: currentRoute === 'work' && previous === 'detail' ? workPosition : 0, behavior: 'instant' });
 }
 
 function showImage() {
@@ -471,17 +530,27 @@ imageContainer.addEventListener('touchend', event => {
   if (Math.abs(distance) > 45) stepImage(distance > 0 ? -1 : 1);
 }, { passive: true });
 
-const terms = document.querySelector('#terms-copy');
-fetch('agb.txt').then(response => {
-  if (!response.ok) throw Error('AGBs unavailable');
-  return response.text();
-}).then(content => {
-  for (const block of content.trim().split(/\n\n(?=\d+\.\)|Stand )/)) {
-    const [heading, ...lines] = block.trim().split('\n');
-    terms.append(node(heading.startsWith('Stand ') ? 'p' : 'h2', '', heading));
-    if (lines.length) terms.append(node('pre', '', lines.join('\n').trim()));
-  }
-}).catch(() => terms.append(link('AGBs öffnen', 'agb.txt')));
+let termsRequested = false;
+function loadTerms() {
+  if (termsRequested) return;
+  termsRequested = true;
+  const terms = document.querySelector('#terms-copy');
+  fetch('agb.txt').then(response => {
+    if (!response.ok) throw Error('AGBs unavailable');
+    return response.text();
+  }).then(content => {
+    for (const block of content.trim().split(/\n\n(?=\d+\.\)|Stand )/)) {
+      const [heading, ...lines] = block.trim().split('\n');
+      terms.append(node(heading.startsWith('Stand ') ? 'p' : 'h2', '', heading));
+      if (lines.length) terms.append(node('pre', '', lines.join('\n').trim()));
+    }
+  }).catch(() => terms.append(link('AGBs öffnen', 'agb.txt')));
+}
+
+routeError.querySelector('a').addEventListener('click', event => {
+  event.preventDefault();
+  location.reload();
+});
 history.scrollRestoration = 'manual';
 window.addEventListener('hashchange', route);
 route();
